@@ -49,6 +49,8 @@ type Props = {
   onPan?: (any) => void;
   onPanEnd?: (any) => void;
   onStateChange?: (data: OnStateChangeData) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => boolean | undefined;
+  onKeyUp?: (e: React.KeyboardEvent<HTMLDivElement>) => boolean | undefined;
 } & React.HTMLProps<HTMLDivElement>;
 
 type State = {
@@ -269,7 +271,9 @@ class PanZoom extends React.Component<Props, State> {
     const { keyMapping, disableKeyInteraction, onKeyDown } = this.props;
 
     if (typeof onKeyDown === 'function') {
-      onKeyDown(e);
+      if (onKeyDown(e) === false) {
+        return;
+      }
     }
 
     if (disableKeyInteraction) {
@@ -314,7 +318,9 @@ class PanZoom extends React.Component<Props, State> {
     const { disableKeyInteraction, onKeyUp } = this.props;
 
     if (typeof onKeyUp === 'function') {
-      onKeyUp(e);
+      if (onKeyUp(e) === false) {
+        return;
+      }
     }
 
     if (disableKeyInteraction) {
