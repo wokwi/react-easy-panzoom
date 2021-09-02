@@ -51,6 +51,7 @@ type Props = {
   onStateChange?: (data: OnStateChangeData) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => boolean | undefined;
   onKeyUp?: (e: React.KeyboardEvent<HTMLDivElement>) => boolean | undefined;
+  overrideTransform?: (matrix: TransformationMatrix) => string;
 } & React.HTMLProps<HTMLDivElement>;
 
 type State = {
@@ -60,10 +61,10 @@ type State = {
   angle: number;
 };
 
-const getTransformMatrixString = (transformationMatrix: TransformationMatrix) => {
+export function getTransformMatrixString(transformationMatrix: TransformationMatrix) {
   const { a, b, c, d, x, y } = transformationMatrix;
   return `matrix(${a}, ${b}, ${c}, ${d}, ${x}, ${y})`;
-};
+}
 
 class PanZoom extends React.Component<Props, State> {
   static defaultProps = {
@@ -600,6 +601,7 @@ class PanZoom extends React.Component<Props, State> {
   };
 
   moveBy = (dx: number, dy: number, noStateUpdate: boolean = true) => {
+    const { overrideTransform } = this.props;
     const { x, y, scale, angle } = this.state;
 
     // Allow better performance by not updating the state on every change
@@ -631,7 +633,8 @@ class PanZoom extends React.Component<Props, State> {
       const intermediateX = prevTransformX + (prevTransformX - boundX) / 2;
       const intermediateY = prevTransformY + (prevTransformY - boundY) / 2;
 
-      this.intermediateTransformMatrixString = getTransformMatrixString({
+      const matrixToString = overrideTransform || getTransformMatrixString;
+      this.intermediateTransformMatrixString = matrixToString({
         a,
         b,
         c,
@@ -639,7 +642,7 @@ class PanZoom extends React.Component<Props, State> {
         x: intermediateX,
         y: intermediateY,
       });
-      this.transformMatrixString = getTransformMatrixString({ a, b, c, d, x: boundX, y: boundY });
+      this.transformMatrixString = matrixToString({ a, b, c, d, x: boundX, y: boundY });
 
       // get bound x / y coords without the rotation offset
       this.prevPanPosition = {
@@ -846,10 +849,13 @@ class PanZoom extends React.Component<Props, State> {
       onKeyUp,
       onTouchStart,
       onStateChange,
+      overrideTransform,
       ...restPassThroughProps
     } = this.props;
     const { x, y, scale, angle } = this.state;
-    const transform = getTransformMatrixString(this.getTransformMatrix(x, y, scale, angle));
+    const transform = (overrideTransform || getTransformMatrixString)(
+      this.getTransformMatrix(x, y, scale, angle)
+    );
 
     if (process.env.NODE_ENV !== 'production') {
       warning(
@@ -907,7 +913,6 @@ class PanZoom extends React.Component<Props, State> {
           style={{
             transformOrigin: '0 0 0',
             transform,
-            transition: 'all 0.10s linear',
             willChange: 'transform',
           }}
         >
