@@ -1,6 +1,6 @@
-import * as React from 'react'
-import Button from './Button'
-import injectSheet from 'react-jss'
+import * as React from 'react';
+import Button from './Button';
+import injectSheet from 'react-jss';
 
 const styles = {
   root: {
@@ -49,7 +49,7 @@ const styles = {
     width: 30,
     backgroundColor: 'white',
   },
-}
+};
 
 const PadControllerUI = ({ classes, moveByRatio }) => {
   return (
@@ -67,7 +67,7 @@ const PadControllerUI = ({ classes, moveByRatio }) => {
           </Button>
         </div>
 
-        <div className={classes.empty}/>
+        <div className={classes.empty} />
 
         <div className={classes.right}>
           <Button onClick={() => moveByRatio(1, 0)}>
@@ -82,11 +82,11 @@ const PadControllerUI = ({ classes, moveByRatio }) => {
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 PadControllerUI.defaultProps = {
   moveByRatio: () => {},
-}
+};
 
-export default injectSheet(styles)(PadControllerUI)
+export default injectSheet(styles)(PadControllerUI);

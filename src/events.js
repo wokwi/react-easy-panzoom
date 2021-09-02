@@ -1,11 +1,11 @@
 export const preventDefault = (e) => {
-  e.preventDefault()
-}
+  e.preventDefault();
+};
 
 export const captureTextSelection = () => {
-  window.addEventListener('selectstart', preventDefault)
-}
+  window.addEventListener('selectstart', preventDefault);
+};
 
 export const releaseTextSelection = () => {
-  window.removeEventListener('selectstart', preventDefault)
-}
+  window.removeEventListener('selectstart', preventDefault);
+};

@@ -65,6 +65,7 @@
     "flow-bin": "^0.95.1",
     "gh-pages": "2.0.1",
     "jest": "^24.8.0",
+    "prettier": "^2.3.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-jss": "^8.6.1",

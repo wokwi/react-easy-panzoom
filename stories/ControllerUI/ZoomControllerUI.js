@@ -1,5 +1,5 @@
-import * as React from 'react'
-import Button from './Button'
+import * as React from 'react';
+import Button from './Button';
 
 const ZoomControllerUI = ({ onZoomIn, onZoomOut }) => {
   return (
@@ -23,7 +23,7 @@ const ZoomControllerUI = ({ onZoomIn, onZoomOut }) => {
         <i className="material-icons">remove</i>
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default ZoomControllerUI
+export default ZoomControllerUI;

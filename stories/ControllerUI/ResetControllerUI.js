@@ -1,5 +1,5 @@
-import * as React from 'react'
-import Button from './Button'
+import * as React from 'react';
+import Button from './Button';
 
 const ResetControllerUI = ({ center, reset }) => {
   return (
@@ -23,7 +23,7 @@ const ResetControllerUI = ({ center, reset }) => {
         <i className="material-icons">autorenew</i>
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default ResetControllerUI
+export default ResetControllerUI;

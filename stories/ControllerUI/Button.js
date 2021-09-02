@@ -1,5 +1,5 @@
-import * as React from 'react'
-import injectSheet from 'react-jss'
+import * as React from 'react';
+import injectSheet from 'react-jss';
 
 const styles = {
   root: {
@@ -19,17 +19,14 @@ const styles = {
       backgroundColor: '#f4f4f4',
     },
   },
-}
+};
 
 const Button = ({ classes, children, ...rest }) => {
   return (
-    <div
-      className={classes.root}
-      {...rest}
-    >
+    <div className={classes.root} {...rest}>
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default injectSheet(styles)(Button)
+export default injectSheet(styles)(Button);

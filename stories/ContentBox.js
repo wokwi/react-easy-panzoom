@@ -1,6 +1,6 @@
-import * as React from 'react'
-import injectSheet from 'react-jss'
-import Landscape from './john-westrock-638048-unsplash.jpg'
+import * as React from 'react';
+import injectSheet from 'react-jss';
+import Landscape from './john-westrock-638048-unsplash.jpg';
 
 const styles = {
   root: {
@@ -33,8 +33,8 @@ const styles = {
     left: 'calc(50% - 6px)',
     backgroundColor: 'red',
     borderRadius: '100%',
-  }
-}
+  },
+};
 
 const ContentBox = ({ classes }) => {
   return (
@@ -42,9 +42,9 @@ const ContentBox = ({ classes }) => {
       <div className={classes.image} />
       <div className={classes.button}>Button</div>
 
-      <div className={classes.overlay}/>
+      <div className={classes.overlay} />
     </div>
-  )
-}
+  );
+};
 
-export default injectSheet(styles)(ContentBox)
+export default injectSheet(styles)(ContentBox);

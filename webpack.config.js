@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
-const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin')
-const nodeExternals = require('webpack-node-externals')
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   mode: 'production',
@@ -11,7 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, './dist'),
     filename: 'index.js',
     library: '',
-    libraryTarget: 'commonjs'
+    libraryTarget: 'commonjs',
   },
   externals: [nodeExternals()],
   optimization: {
@@ -74,8 +74,8 @@ module.exports = {
           // Save disk space when time isn't as important
           cacheCompression: true,
           compact: true,
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 };

@@ -1,6 +1,6 @@
-import * as React from 'react'
-import Button from './Button'
-import injectSheet from 'react-jss'
+import * as React from 'react';
+import Button from './Button';
+import injectSheet from 'react-jss';
 
 const styles = {
   root: {
@@ -9,7 +9,7 @@ const styles = {
     overflow: 'hidden',
     backgroundColor: 'white',
   },
-}
+};
 
 const RotationControllerUI = ({ classes, rotateClockwise, rotateCounterClockwise }) => {
   return (
@@ -23,10 +23,12 @@ const RotationControllerUI = ({ classes, rotateClockwise, rotateCounterClockwise
         <i className="material-icons">refresh</i>
       </Button>
       <Button onClick={rotateCounterClockwise}>
-        <i className="material-icons" style={{ transform: 'scale(1, -1)' }}>refresh</i>
+        <i className="material-icons" style={{ transform: 'scale(1, -1)' }}>
+          refresh
+        </i>
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default injectSheet(styles)(RotationControllerUI)
+export default injectSheet(styles)(RotationControllerUI);

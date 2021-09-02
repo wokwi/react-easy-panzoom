@@ -1,15 +1,15 @@
-import React, { useRef } from 'react'
+import React, { useRef } from 'react';
 
-import { storiesOf } from '@storybook/react'
+import { storiesOf } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
-import PanZoom from '../src/PanZoom'
-import Picture from './john-westrock-638048-unsplash.jpg'
+import PanZoom from '../src/PanZoom';
+import Picture from './john-westrock-638048-unsplash.jpg';
 
 const InstagramDemo = () => {
-  const ref = useRef(null)
+  const ref = useRef(null);
 
   function onPanEnd() {
-    ref.current.reset()
+    ref.current.reset();
   }
 
   return (
@@ -32,9 +32,9 @@ const InstagramDemo = () => {
         }}
       />
     </PanZoom>
-  )
-}
+  );
+};
 
 storiesOf('Demo', module)
   .addDecorator(withKnobs)
-  .add('Instagram pinch to zoom', () => <InstagramDemo />)
+  .add('Instagram pinch to zoom', () => <InstagramDemo />);
