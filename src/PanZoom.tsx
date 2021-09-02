@@ -891,7 +891,6 @@ class PanZoom extends React.Component<Props, State> {
         <div
           ref={this.dragContainer}
           style={{
-            display: 'inline-block',
             transformOrigin: '0 0 0',
             transform,
             transition: 'all 0.10s linear',
