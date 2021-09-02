@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-
-const PanZoom = require('./PanZoom').default;
+import PanZoom from './PanZoom';
 
 const PANZOOM_WIDTH = 500;
 const PANZOOM_HEIGHT = 500;
@@ -9,7 +8,7 @@ const PANZOOM_HEIGHT = 500;
 const style = { width: PANZOOM_WIDTH, height: PANZOOM_HEIGHT };
 
 const raf = async () => {
-  await new Promise((resolve) =>
+  await new Promise<void>((resolve) =>
     requestAnimationFrame(() => {
       resolve();
     })
@@ -24,7 +23,7 @@ const mockGetContainerBoundingRect = (width = PANZOOM_WIDTH, height = PANZOOM_HE
     left: 0,
     bottom: 0,
     right: 0,
-  }));
+  } as ClientRect));
 
 const children = <div>{'panzoom content'}</div>;
 
@@ -41,7 +40,7 @@ describe('Smoke tests', () => {
 
 describe('Interactions and transformations', () => {
   test('should pan with mouse interactions', async () => {
-    const wrapper = mount(<PanZoom style={style}>{children}</PanZoom>);
+    const wrapper = mount<PanZoom>(<PanZoom style={style}>{children}</PanZoom>);
 
     // we need to mock getContainerBoundingRect as jest doesn't support
     // full browser rendering and getBoundingClientRect default to 0's
@@ -72,7 +71,7 @@ describe('Interactions and transformations', () => {
   });
 
   test('should pan with touch interactions', async () => {
-    const wrapper = mount(<PanZoom style={style}>{children}</PanZoom>);
+    const wrapper = mount<PanZoom>(<PanZoom style={style}>{children}</PanZoom>);
 
     // we need to mock getContainerBoundingRect as jest doesn't support
     // full browser rendering and getBoundingClientRect default to 0's
@@ -81,7 +80,9 @@ describe('Interactions and transformations', () => {
     expect(wrapper.instance().mousePos).toStrictEqual({ x: 5, y: 5 });
 
     // move by 2 on x and y axis
-    document.dispatchEvent(new TouchEvent('touchmove', { touches: [{ clientX: 7, clientY: 7 }] }));
+    document.dispatchEvent(
+      new TouchEvent('touchmove', { touches: [{ clientX: 7, clientY: 7 } as any] })
+    );
 
     // trigger requestAnimationFrame
     await raf();
@@ -91,7 +92,7 @@ describe('Interactions and transformations', () => {
 
     // move by 4 on x and 6 on y axis
     document.dispatchEvent(
-      new TouchEvent('touchmove', { touches: [{ clientX: 11, clientY: 13 }] })
+      new TouchEvent('touchmove', { touches: [{ clientX: 11, clientY: 13 } as any] })
     );
 
     // trigger requestAnimationFrame

@@ -15,46 +15,47 @@ import {
 } from './maths';
 import { captureTextSelection, releaseTextSelection } from './events';
 
-type OnStateChangeData = {
-  x: number,
-  y: number,
-  scale: number,
-  angle: number,
-};
+interface OnStateChangeData {
+  x: number;
+  y: number;
+  scale: number;
+  angle: number;
+}
 
 type Props = {
-  zoomSpeed: number,
-  doubleZoomSpeed: number,
-  disabled?: boolean,
-  autoCenter?: boolean,
-  autoCenterZoomLevel?: number,
-  disableKeyInteraction?: boolean,
-  disableDoubleClickZoom?: boolean,
-  disableScrollZoom?: boolean,
-  realPinch?: boolean,
-  keyMapping?: { [string]: { x: number, y: number, z: number } },
-  minZoom: number,
-  maxZoom: number,
+  zoomSpeed: number;
+  doubleZoomSpeed: number;
+  disabled?: boolean;
+  autoCenter?: boolean;
+  autoCenterZoomLevel?: number;
+  disableKeyInteraction?: boolean;
+  disableDoubleClickZoom?: boolean;
+  disableScrollZoom?: boolean;
+  realPinch?: boolean;
+  keyMapping?: { [key: string]: { x: number; y: number; z: number } };
+  minZoom: number;
+  maxZoom: number;
+  enableBoundingBox?: boolean;
   preventPan: (
-    event: SyntheticTouchEvent<HTMLDivElement> | MouseEvent,
+    event: React.TouchEvent<HTMLDivElement> | React.MouseEvent,
     x: number,
     y: number
-  ) => boolean,
-  noStateUpdate: boolean,
-  boundaryRatioVertical: number,
-  boundaryRatioHorizontal: number,
+  ) => boolean;
+  noStateUpdate: boolean;
+  boundaryRatioVertical: number;
+  boundaryRatioHorizontal: number;
 
-  onPanStart?: (any) => void,
-  onPan?: (any) => void,
-  onPanEnd?: (any) => void,
-  onStateChange?: (data: OnStateChangeData) => void,
-} & React.ElementProps<'div'>;
+  onPanStart?: (any) => void;
+  onPan?: (any) => void;
+  onPanEnd?: (any) => void;
+  onStateChange?: (data: OnStateChangeData) => void;
+} & React.HTMLProps<HTMLDivElement>;
 
 type State = {
-  x: number,
-  y: number,
-  scale: number,
-  angle: number,
+  x: number;
+  y: number;
+  scale: number;
+  angle: number;
 };
 
 const getTransformMatrixString = (transformationMatrix: TransformationMatrix) => {
@@ -112,7 +113,7 @@ class PanZoom extends React.Component<Props, State> {
     const { autoCenter, autoCenterZoomLevel, minZoom, maxZoom } = this.props;
 
     if (this.container.current) {
-      this.container.current.addEventListener('wheel', this.onWheel, { passive: false });
+      this.container.current.addEventListener('wheel', this.onWheel as any, { passive: false });
     }
 
     if (maxZoom < minZoom) {
@@ -148,11 +149,11 @@ class PanZoom extends React.Component<Props, State> {
     this.cleanTouchListeners();
     releaseTextSelection();
     if (this.container.current) {
-      this.container.current.removeEventListener('wheel', this.onWheel, { passive: false });
+      this.container.current.removeEventListener('wheel', this.onWheel as any);
     }
   }
 
-  onDoubleClick = (e: MouseEvent) => {
+  onDoubleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const { onDoubleClick, disableDoubleClickZoom, doubleZoomSpeed } = this.props;
 
     if (typeof onDoubleClick === 'function') {
@@ -167,7 +168,7 @@ class PanZoom extends React.Component<Props, State> {
     this.zoomTo(offset.x, offset.y, doubleZoomSpeed);
   };
 
-  onMouseDown = (e: MouseEvent) => {
+  onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const { preventPan, onMouseDown } = this.props;
 
     if (typeof onMouseDown === 'function') {
@@ -252,7 +253,7 @@ class PanZoom extends React.Component<Props, State> {
     releaseTextSelection();
   };
 
-  onWheel = (e: WheelEvent) => {
+  onWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     const { disableScrollZoom, disabled, zoomSpeed } = this.props;
     if (disableScrollZoom || disabled) {
       return;
@@ -264,7 +265,7 @@ class PanZoom extends React.Component<Props, State> {
     e.preventDefault();
   };
 
-  onKeyDown = (e: SyntheticKeyboardEvent<HTMLDivElement>) => {
+  onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const { keyMapping, disableKeyInteraction, onKeyDown } = this.props;
 
     if (typeof onKeyDown === 'function') {
@@ -309,7 +310,7 @@ class PanZoom extends React.Component<Props, State> {
     }
   };
 
-  onKeyUp = (e: SyntheticKeyboardEvent<HTMLDivElement>) => {
+  onKeyUp = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const { disableKeyInteraction, onKeyUp } = this.props;
 
     if (typeof onKeyUp === 'function') {
@@ -328,7 +329,7 @@ class PanZoom extends React.Component<Props, State> {
     }
   };
 
-  onTouchStart = (e: SyntheticTouchEvent<HTMLDivElement>) => {
+  onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     const { preventPan, onTouchStart, disabled } = this.props;
     if (typeof onTouchStart === 'function') {
       onTouchStart(e);
@@ -510,7 +511,7 @@ class PanZoom extends React.Component<Props, State> {
     }
   };
 
-  getPinchZoomLength = (finger1: Touch, finger2: Touch): number => {
+  getPinchZoomLength = (finger1: React.Touch, finger2: React.Touch): number => {
     return Math.sqrt(
       (finger1.clientX - finger2.clientX) * (finger1.clientX - finger2.clientX) +
         (finger1.clientY - finger2.clientY) * (finger1.clientY - finger2.clientY)
@@ -584,7 +585,7 @@ class PanZoom extends React.Component<Props, State> {
     this.moveBy(dx, dy, false);
   };
 
-  moveBy = (dx: number, dy: number, noStateUpdate?: boolean = true) => {
+  moveBy = (dx: number, dy: number, noStateUpdate: boolean = true) => {
     const { x, y, scale, angle } = this.state;
 
     // Allow better performance by not updating the state on every change
@@ -727,7 +728,7 @@ class PanZoom extends React.Component<Props, State> {
     return this.getContainer().getBoundingClientRect();
   };
 
-  getOffset = (e: MouseEvent | Touch): Coordinates => {
+  getOffset = (e: MouseEvent | React.MouseEvent | React.Touch): Coordinates => {
     const containerRect = this.getContainerBoundingRect();
     const offsetX = e.clientX - containerRect.left;
     const offsetY = e.clientY - containerRect.top;

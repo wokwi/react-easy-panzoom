@@ -2,7 +2,9 @@
   "name": "react-easy-panzoom",
   "version": "0.4.4",
   "description": "Wrapper to enable pan and zoom for any React component",
-  "main": "./lib/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "author": "mnogueron",
   "homepage": "https://mnogueron.github.io/react-easy-panzoom",
   "repository": {
@@ -11,22 +13,17 @@
   },
   "license": "MIT",
   "scripts": {
-    "lib": "npm run clean && npm run build:cjs",
-    "clean": "rm -rf lib && mkdir lib",
-    "prepublishOnly": "npm run lib",
-    "storybook": "start-storybook -p 6006 -s .storybook/public",
+    "prepublishOnly": "npm run build",
+    "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook -s .storybook/public -c .storybook -o build-storybook",
     "storybook:publish": "gh-pages -m 'Update storybook gh-pages' -d ./build-storybook",
-    "build": "webpack",
+    "build": "rimraf dist && tsc --sourceMap false && tsc -m commonjs --outDir dist/cjs --sourceMap false",
     "test": "jest",
     "coverage": "jest --coverage",
-    "flow": "flow",
-    "build:cjs": "cross-env NODE_ENV=production babel --config-file ./babel.config.js ./src --out-dir ./lib --ignore \"**/*.test.js\""
+    "build-storybook": "build-storybook"
   },
   "files": [
-    "*.md",
-    "lib",
-    "src"
+    "dist"
   ],
   "keywords": [
     "react",
@@ -44,34 +41,26 @@
     "warning": "4.0.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-proposal-class-properties": "^7.3.4",
-    "@babel/plugin-proposal-export-default-from": "^7.2.0",
-    "@babel/preset-env": "^7.4.0",
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
-    "@storybook/addon-actions": "^5.1.11",
-    "@storybook/addon-knobs": "^5.1.11",
-    "@storybook/addon-links": "^5.1.11",
-    "@storybook/addons": "^5.1.11",
-    "@storybook/react": "^5.1.11",
-    "@storybook/theming": "^5.1.11",
-    "babel-loader": "^8.0.5",
-    "babel-polyfill": "^6.26.0",
-    "cross-env": "^5.2.0",
+    "@babel/core": "^7.15.0",
+    "@storybook/addon-actions": "^6.3.7",
+    "@storybook/addon-essentials": "^6.3.7",
+    "@storybook/addon-knobs": "^6.3.0",
+    "@storybook/addon-links": "^6.3.7",
+    "@storybook/react": "^6.3.7",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/jest": "^27.0.1",
+    "@types/react": "^17.0.19",
+    "@types/warning": "^3.0.0",
+    "babel-loader": "^8.2.2",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "flow-bin": "^0.95.1",
     "gh-pages": "2.0.1",
-    "jest": "^24.8.0",
+    "jest": "^27.1.0",
     "prettier": "^2.3.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-jss": "^8.6.1",
-    "terser-webpack-plugin": "^1.2.3",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "webpack-node-externals": "^1.7.2"
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.2"
   }
 }

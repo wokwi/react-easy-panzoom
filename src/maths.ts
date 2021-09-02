@@ -1,37 +1,42 @@
-export type TransformationMatrix = {
-  a: number,
-  b: number,
-  c: number,
-  d: number,
-  x: number,
-  y: number,
-};
+export interface TransformationMatrix {
+  a: number;
+  b: number;
+  c: number;
+  d: number;
+  x: number;
+  y: number;
+}
 
-export type BoundingBox = {
-  top: number,
-  left: number,
-  width: number,
-  height: number,
-};
+export interface BoundingBox {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
 
-export type BoundaryRatio = {
-  vertical: number,
-  horizontal: number,
-};
+export interface BoundaryRatio {
+  vertical: number;
+  horizontal: number;
+}
 
-export type Coordinates = {
-  x: number,
-  y: number,
-};
+export interface Coordinates {
+  x: number;
+  y: number;
+}
 
-export type BoundCoordinates = { boundX: number, boundY: number, offsetX: number, offsetY: number };
+export interface BoundCoordinates {
+  boundX: number;
+  boundY: number;
+  offsetX: number;
+  offsetY: number;
+}
 
-export type TransformationParameters = {
-  angle: number,
-  scale: number,
-  offsetX: number,
-  offsetY: number,
-};
+export interface TransformationParameters {
+  angle: number;
+  scale: number;
+  offsetX: number;
+  offsetY: number;
+}
 
 export const ZOOM_SPEED_MULTIPLIER = 0.065;
 
@@ -116,8 +121,8 @@ export const boundCoordinates = (
   boundingBox: BoundingBox,
   containerHeight: number,
   containerWidth: number,
-  offsetX?: number = 0,
-  offsetY?: number = 0
+  offsetX: number = 0,
+  offsetY: number = 0
 ): BoundCoordinates => {
   const { top, left, width, height } = boundingBox;
   // check that computed are inside boundaries otherwise set to the bounding box limits
